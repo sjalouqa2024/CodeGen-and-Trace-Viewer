@@ -39,7 +39,6 @@ export class DeliveryPage extends BasePage {
     async closeTermsAndConditions() {
         await this.closeTermsButton.click();
     }
-
     async purchase() {
         await this.purchaseButton.click();
     }

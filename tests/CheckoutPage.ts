@@ -14,9 +14,9 @@ export class CheckoutPage extends BasePage {
         this.continueShoppingButton = page.getByRole("button", { name: "Continue Shopping" });
         this.checkoutButton = page.getByRole("button", { name: "Checkout" });
     }
-    override async open() :Promise<void>
+    override async openShopPage() :Promise<void>
     {
-        await super.open();
+        await super.openShopPage();
         await this.checkoutTable.waitFor();
         await this.total.waitFor();
         await this.continueShoppingButton.waitFor();

@@ -65,12 +65,10 @@ test("Complete ProtoCommerce purchase flow", async ({ page }) => {
     await expect(deliveryPage.deliveryLocationLabel).toBeVisible();
     await expect(deliveryPage.deliveryLocationInput).toBeVisible();
     await expect(deliveryPage.termsAndConditionsLink).toBeVisible();
-
-    await deliveryPage.enterDeliveryLocation("Amman-Jordan");
-
-await deliveryPage.openTermsAndConditions();
-await expect(deliveryPage.termsAndConditionsModal).toBeVisible();
-await deliveryPage.closeTermsAndConditions();
-await deliveryPage.agreeToTerms();
-await expect(deliveryPage.agreeTermsCheckbox).toBeChecked();
+    await deliveryPage.enterDeliveryLocation("Amman-Jordan");  
+    await deliveryPage.openTermsAndConditions();
+    await expect(deliveryPage.termsAndConditionsModal).toBeVisible();
+    await deliveryPage.closeTermsAndConditions();
+    await deliveryPage.agreeToTerms();
+    await expect(deliveryPage.agreeTermsCheckbox).toBeChecked();
 });

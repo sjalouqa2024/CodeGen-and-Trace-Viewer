@@ -43,7 +43,6 @@ public readonly success_message: Locator;
         await this.two_way_data_binding.waitFor();
         await this.submit.waitFor();
 
-
     }
 async submitData():Promise<void>{
     await this.Name.fill("user1");

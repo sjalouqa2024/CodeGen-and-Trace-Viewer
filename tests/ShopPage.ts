@@ -43,6 +43,7 @@ public readonly Checkout_Button: Locator;
         await this.iphone_X_Card.waitFor();
         await this.Blackberry_Card.waitFor();
     }
+    
      async addProductToCart(productName: string) {
         await this.page
             .locator("app-card")
