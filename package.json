@@ -1,0 +1,6 @@
+﻿{
+  "name": "codegen-trace-viewer",
+  "version": "1.0.0",
+  "description": "CodeGen and Trace Viewer framework",
+  "private": true
+}
