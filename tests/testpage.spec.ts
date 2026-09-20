@@ -1,74 +1,72 @@
 import { test, expect } from "@playwright/test";
-import { ProtoCommercePage} from "./ProtoCommercePage";
-import { ShopPage} from "./ShopPage";
-import { CheckoutPage} from "./CheckoutPage";
-import { DeliveryPage} from "./deliveryLocationPage";
+import { BasePage } from "./basePage"
+import {LoginPage} from "./LoginPage";
+import {RegisterPage} from "./registerPage";
+ import { DashboardPage } from "./dashBoardPage";
+import {CartPage} from "./cartPage";
+import { PaymentPage } from "./paymentPage";
+
 
 test.use({
   launchOptions: { slowMo: 800 },
 });
 
-test("Complete ProtoCommerce purchase flow", async ({ page }) => {
+test("Complete rahulshettyacadem purchase flow", async ({ page }) => {
 
-    // -------------------------
-    // ProtoCommerce
-    // -------------------------
+  //register page  
+  const email = `user${Date.now()}@email.com`;
+  const password = "P@ssw0rd@123";
+  const registerPage=new RegisterPage(page);
+  await registerPage.openHomePage();
+  await registerPage.registerUser(
+  "user",
+  "name",
+  email,
+  "9867871973",
+  "2: Student",
+  "Female",  
+  password,
+  "P@ssw0rd@123"
+);
 
-    const protoPage = new ProtoCommercePage(page);
+//login 
+const loginpage =new LoginPage(page);
+await loginpage.openHomePage();
+await loginpage.loginUser(email, password);
 
-    await protoPage.openHomePage();
-    await protoPage.submitData();
+// login screenshot 
+await page.screenshot({ path: "screenshot_1_login.png", fullPage: true });
 
-    await expect(protoPage.success_message).toBeVisible();
+// add item tocart 
+const dashboarpage =new DashboardPage(page);
+const newTab = await dashboarpage.clickQACareerLink(dashboarpage.qaCareerLink);
+await expect(newTab.url()).toContain("rahulshettyacademy.com/qa");
+await newTab.close();
+await expect(dashboarpage.qaCareerLink).toBeVisible();
+await dashboarpage.addItemToCart("ZARA COAT 3");
+await expect(dashboarpage.cartCountBadge).toContainText("1");
+await dashboarpage.clickCartButton();
 
+// cart page 
+const cartpage = new CartPage(page);
+const productInCart = await cartpage.getProductName();
+await expect (productInCart).toContain("ZARA COAT 3")
+// screenshot after adding product to cart 
+await page.screenshot({ path: "screenshot_3_cart_page.png", fullPage: true });
+await cartpage.clickCheckoutButton();
 
-    // -------------------------
-    // Shop
-    // -------------------------
+// Payment details page
+const paymentpage = new PaymentPage(page);
+await paymentpage.fillPayementDetails(
+  "4542993192922293",  // card number
+  "12",                 // expiry month
+  "25",                 // expiry year
+  "123",                // CVV
+  "John Doe",           // name on card
+  "",                   // coupon (leave empty or skip)
+  ""                    // country (SKIP )
+);
+// screenshot after checking out form 
+await page.screenshot({ path: "screenshot_4_payment_filled.png", fullPage: true });
 
-    const shopPage = new ShopPage(page);
-
-    await shopPage.openShopPage();
-
-    await expect(shopPage.iphone_X_Card).toBeVisible();
-    await expect(shopPage.Blackberry_Card).toBeVisible();
-
-    await shopPage.addProductToCart("iphone X");
-    await shopPage.addProductToCart("Blackberry");
-
-    await expect(shopPage.Checkout_Button).toBeVisible();
-    await expect(shopPage.Checkout_Button).toContainText("Checkout ( 2 )");
-
-    await shopPage.Checkout_Button.click();
-
-
-    // -------------------------
-    // Checkout
-    // -------------------------
-
-    const checkoutPage = new CheckoutPage(page);
-
-    await expect(checkoutPage.checkoutTable).toBeVisible();
-    await expect(checkoutPage.total).toBeVisible();
-    await expect(checkoutPage.continueShoppingButton).toBeVisible();
-    await expect(checkoutPage.checkoutButton).toBeVisible();
-
-    await checkoutPage.checkoutButton.click();
-
-
-    // -------------------------
-    // Delivery
-    // -------------------------
-
-    const deliveryPage = new DeliveryPage(page);
-
-    await expect(deliveryPage.deliveryLocationLabel).toBeVisible();
-    await expect(deliveryPage.deliveryLocationInput).toBeVisible();
-    await expect(deliveryPage.termsAndConditionsLink).toBeVisible();
-    await deliveryPage.enterDeliveryLocation("Amman-Jordan");  
-    await deliveryPage.openTermsAndConditions();
-    await expect(deliveryPage.termsAndConditionsModal).toBeVisible();
-    await deliveryPage.closeTermsAndConditions();
-    await deliveryPage.agreeToTerms();
-    await expect(deliveryPage.agreeTermsCheckbox).toBeChecked();
 });
