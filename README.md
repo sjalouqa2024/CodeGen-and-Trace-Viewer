@@ -1,6 +1,3 @@
-﻿# CodeGen and Trace Viewer
+# Special Locators in Playwright
 
-A comprehensive testing and automation framework.
-
-## Modules
-- **promise-trace-view**: Playwright POM automation for Promise and Trace View application
+Playwright assignment covering special locators and Page Object Model implementation.

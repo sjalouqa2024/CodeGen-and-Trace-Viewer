@@ -1,6 +1,13 @@
-﻿{
-  "name": "codegen-trace-viewer",
+{
+  "name": "special-locators-in-playwright",
   "version": "1.0.0",
-  "description": "CodeGen and Trace Viewer framework",
-  "private": true
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.5.1"
+  }
 }
